@@ -4,32 +4,20 @@ document.addEventListener('DOMContentLoaded', function() {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
             const targetId = this.getAttribute('href');
-            const targetElement = document.querySelector(targetId);
+            let offset = 0;
             
-            if (targetElement) {
-                const targetPosition = targetElement.offsetTop - 80;
-                const startPosition = window.pageYOffset;
-                const distance = targetPosition - startPosition;
-                const duration = 1000;
-                let start = null;
-
-                function animation(currentTime) {
-                    if (start === null) start = currentTime;
-                    const timeElapsed = currentTime - start;
-                    const run = ease(timeElapsed, startPosition, distance, duration);
-                    window.scrollTo(0, run);
-                    if (timeElapsed < duration) requestAnimationFrame(animation);
-                }
-
-                function ease(t, b, c, d) {
-                    t /= d / 2;
-                    if (t < 1) return c / 2 * t * t + b;
-                    t--;
-                    return -c / 2 * (t * (t - 2) - 1) + b;
-                }
-
-                requestAnimationFrame(animation);
+            // Add offset for header if not scrolling to top
+            if (targetId !== '#top') {
+                offset = 120; // Adjust this value based on your header height
             }
+            
+            const targetElement = targetId === '#top' ? document.body : document.querySelector(targetId);
+            const targetPosition = targetId === '#top' ? 0 : targetElement.getBoundingClientRect().top + window.pageYOffset - offset;
+            
+            window.scrollTo({
+                top: targetPosition,
+                behavior: 'smooth'
+            });
         });
     });
 
@@ -50,12 +38,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Copy button functionality
     const copyBtn = document.querySelector('.copy-btn');
-    const addressText = document.querySelector('.address-text');
-
-    if (copyBtn && addressText) {
+    if (copyBtn) {
         copyBtn.addEventListener('click', async function() {
             try {
-                await navigator.clipboard.writeText(addressText.textContent);
+                await navigator.clipboard.writeText('EA6zg6e9RcqWDgUpkhRu2YZn7LamGTNntivL7h5qpump');
                 
                 // Store original content
                 const originalContent = this.innerHTML;
@@ -220,5 +206,20 @@ document.addEventListener('DOMContentLoaded', function() {
             });
             ticking = true;
         }
+    });
+
+    // Add this to your existing script.js
+    const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+    const navLinks = document.querySelector('.nav-links');
+
+    mobileMenuBtn.addEventListener('click', () => {
+        navLinks.classList.toggle('active');
+    });
+
+    // Close menu when clicking a link
+    document.querySelectorAll('.nav-links a').forEach(link => {
+        link.addEventListener('click', () => {
+            navLinks.classList.remove('active');
+        });
     });
 });
