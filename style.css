@@ -1934,3 +1934,99 @@ html {
     background: var(--accent-color);
     transform: translateY(1px);
 }
+
+/* Fix logo cropping on mobile */
+@media screen and (max-width: 768px) {
+    .hero-content {
+        padding: 60px 20px 20px;  /* Increased top padding */
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .hero-logo {
+        max-width: 80%;
+        margin-top: 40px;  /* Add margin to prevent overlap with navbar */
+        height: auto;
+        object-fit: contain;
+    }
+}
+
+/* Improve modal close button visibility and positioning */
+.close-btn {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    width: 30px;
+    height: 30px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--glass-border);
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 100;
+    transition: all 0.3s ease;
+}
+
+.close-btn::before,
+.close-btn::after {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 2px;
+    background: var(--text-color);
+    top: 50%;
+    left: 50%;
+    transition: background 0.3s ease;
+}
+
+.close-btn::before {
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.close-btn::after {
+    transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.close-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* Modal improvements for mobile */
+@media screen and (max-width: 768px) {
+    .modal-content {
+        width: 95%;
+        max-height: 90vh;
+        margin: 20px auto;
+        padding: 40px 15px 15px;  /* Increased top padding for close button */
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .close-btn {
+        top: 10px;
+        right: 10px;
+        width: 35px;  /* Slightly larger touch target */
+        height: 35px;
+        background: rgba(0, 0, 0, 0.5);  /* Darker background for better contrast */
+    }
+
+    /* Ensure modals don't overlap with fixed elements */
+    .modal-overlay {
+        padding-top: 60px;  /* Account for navbar height */
+    }
+}
+
+/* Fix modal scrolling on iOS */
+.modal-overlay {
+    -webkit-overflow-scrolling: touch;
+    overflow-y: scroll;
+}
+
+/* Prevent body scrolling when modal is open */
+body.modal-open {
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+}

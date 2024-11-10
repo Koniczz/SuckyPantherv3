@@ -222,4 +222,15 @@ document.addEventListener('DOMContentLoaded', function() {
             navLinks.classList.remove('active');
         });
     });
+
+    // Add this to your existing script.js
+    function toggleModalOpen(isOpen) {
+        document.body.classList.toggle('modal-open', isOpen);
+    }
+
+    // Add this to your modal open/close handlers
+    document.querySelectorAll('.modal-overlay').forEach(modal => {
+        modal.addEventListener('show', () => toggleModalOpen(true));
+        modal.addEventListener('hide', () => toggleModalOpen(false));
+    });
 });
